@@ -28,5 +28,10 @@ public class RouteImpl implements RouteService{
         return routeMapper.findById(id);
     }
 
+    @Override
+    public int getratingCountByid(String id) {
+        return routeMapper.findratingCountByid(id);
+    }
+
     ;
 }

@@ -37,4 +37,10 @@ public class RouteController {
             return Result.error(e.getMessage());
         }
     }
+
+    @GetMapping("/getroutecount")
+    public Result<Integer> routerating(String id){
+     int count = routeService.getratingCountByid(id);
+     return Result.success(count);
+    }
 }
