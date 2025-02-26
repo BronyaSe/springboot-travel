@@ -8,4 +8,6 @@ import java.util.List;
 public interface RouteService {
     List<Route> RoutefindByPage(Page<Route> page);
     Route findRouteById(String id);
+
+    int getratingCountByid(String id);
 }

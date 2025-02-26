@@ -20,4 +20,7 @@ public interface RouteMapper extends BaseMapper<Route> {
     @Select("select * from route where id=#{id}")
     @Result(column = "detailPic",typeHandler = JacksonTypeHandler.class,property = "detailPic")
     Route findById(String id);
+
+    @Select("select COUNT(*) from route_reviews where route_id=#{id}")
+    int findratingCountByid(String id);
 }
