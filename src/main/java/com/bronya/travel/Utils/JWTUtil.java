@@ -8,7 +8,10 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Map;
 
@@ -18,9 +21,11 @@ public class JWTUtil {
     private final Integer Expiration;
     private final Key Secret;
 
-    public JWTUtil(@Value("${jwt.expiration}")Integer expiration,@Value("${jwt.secret}") String secret) {
+    public JWTUtil(@Value("${jwt.expiration}")Integer expiration,@Value("${jwt.secret}") String secret) throws NoSuchAlgorithmException {
         this.Expiration = expiration;
-        this.Secret = Keys.hmacShaKeyFor(secret.getBytes());
+        MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+        byte[] keyBytes = sha256.digest(secret.getBytes(StandardCharsets.UTF_8));
+        this.Secret = Keys.hmacShaKeyFor(keyBytes);
     }
 
 
