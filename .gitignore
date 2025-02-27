@@ -19,8 +19,8 @@ target/
 *.iml
 *.ipr
 # 忽略Spring Boot配置文件（例如application.properties和application.yml）
-/src/main/resources/application.properties
-/src/main/resources/application.yml
+**/application.properties
+**/application.yml
 
 ### NetBeans ###
 /nbproject/private/
