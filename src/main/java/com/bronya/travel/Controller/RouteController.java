@@ -38,8 +38,8 @@ public class RouteController {
         }
     }
 
-    @GetMapping("/getroutecount")
-    public Result<Integer> routerating(String id){
+    @GetMapping("/getroutecount/{id}")
+    public Result<Integer> routerating(@PathVariable String id){
      int count = routeService.getratingCountByid(id);
      return Result.success(count);
     }
