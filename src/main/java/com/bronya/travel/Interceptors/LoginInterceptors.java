@@ -25,14 +25,14 @@ public class LoginInterceptors implements HandlerInterceptor {
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
             response.setHeader("Access-Control-Allow-Credentials", "true");
-            if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {//判断是否是预检请求 如果是则放行并不处理后续代码
                 response.setStatus(HttpServletResponse.SC_OK);
                 return false; // 直接返回，不再进行后续处理
             }
             //拦截器会优先于配置文件的corsmapping之前执行
         String token = request.getHeader("Authorization");
         if (token == null || !token.startsWith("Bearer ")) {
-            throw new IllegalArgumentException("非authorization类型"); // 或抛出异常，如 throw new IllegalArgumentException("Invalid Authorization header");
+            throw new IllegalArgumentException("非authorization类型");// 或抛出异常，如 throw new IllegalArgumentException("Invalid Authorization header");
         }
         token = token.substring(7);
         Claims tempclaim = jwtUtil.validateToken(token);

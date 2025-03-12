@@ -83,11 +83,11 @@ public class UserController {
     }
 
     @PostMapping("/updatepwd")
-    public Result<String> updatePwd(@NotBlank @RequestParam(name = "opwd") String oldpsd ,@NotBlank @RequestParam(name = "npwd") String newpwd){
+    public Result<String> updatePwd(@NotBlank @RequestParam(name = "oldPassword") String oldpwd ,@NotBlank @RequestParam(name = "newPassword") String newpwd){
         Claims claims = ThreadLocalUtils.get();
         Integer tempid = (Integer) claims.get("id");
         User tempuser = userService.getUserById(tempid);
-        String encryptopwd = MD5Util.encrypt(oldpsd);
+        String encryptopwd = MD5Util.encrypt(oldpwd);
         if(encryptopwd.equals(tempuser.getPassword())){
             userService.updateUserPwd(tempid, newpwd);
             return Result.success();
