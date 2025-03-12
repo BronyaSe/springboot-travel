@@ -3,8 +3,10 @@ package com.bronya.travel.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.bronya.travel.Entity.DTO.RouteCommentPageDTO;
 import com.bronya.travel.Entity.Route;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Select;
 
@@ -23,4 +25,7 @@ public interface RouteMapper extends BaseMapper<Route> {
 
     @Select("select COUNT(*) from route_reviews where route_id=#{id}")
     int findratingCountByid(String id);
+
+    @Select("select r.id,r.content,r.rating,r.createdAt,u.username,u.avatar from route_reviews r inner join users u on r.user_id=u.id where r.route_id=#{routeid}")
+    List<RouteCommentPageDTO> findCommentByPage(Page<RouteCommentPageDTO> page , @Param("routeid") String routeid);
 }

@@ -2,6 +2,7 @@ package com.bronya.travel.Controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.bronya.travel.Entity.DTO.RouteCommentPageDTO;
 import com.bronya.travel.Entity.Result;
 import com.bronya.travel.Entity.Route;
 import com.bronya.travel.Service.RouteService;
@@ -24,6 +25,12 @@ public class RouteController {
             return Result.success(result);
     }
 
+    @PostMapping("/GetRouteComment")
+    public Result<List<RouteCommentPageDTO>> routeComment(long index,long size,String routeid){
+        Page<RouteCommentPageDTO> page = new Page<>(index,size);
+        List<RouteCommentPageDTO> result = routeService.RouteCommentfindByPage(page,routeid);
+        return Result.success(result);
+    }
     @GetMapping("/getdetail/{id}")
     public Result<Route> routeDetail(@PathVariable String id){
         try {
