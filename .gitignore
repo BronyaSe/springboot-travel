@@ -18,8 +18,8 @@ target/
 *.iws
 *.iml
 *.ipr
-# 忽略所有 application.properties 文件
-application.properties
+# 或按路径忽略（推荐）
+src/main/resources/application.properties
 
 ### NetBeans ###
 /nbproject/private/
