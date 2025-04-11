@@ -2,6 +2,7 @@ package com.bronya.travel.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.bronya.travel.Entity.User;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
@@ -23,6 +24,8 @@ public interface UserMapper extends BaseMapper<User> {
 //    @Select("select * from users WHERE id=#{tempid}")
 //    User getUserById(Integer tempid);
 
-    @Update("update users SET username=#{user.username},email=#{user.email},phoneNumber=#{user.phoneNumber},gender=#{gender},updateTime=CURRENT_TIMESTAMP WHERE id=#{id} ")
-    void updateInfoById(@Param("id") Integer tempid,@Param("user") User user);
+    void updateInfoById(@Param("user") User user);
+
+    @Delete("DELETE from user_favorites where user_id=#{userId} AND location_id=#{locationId}")
+    void deleteFavoritesById(int locationId, String userId);
 }

@@ -25,6 +25,7 @@ public class User {
     @NotBlank(message = "用户名不能为空")
     @Size(min = 5 , max = 16,message = "用户名长度必须在5-16字符")
     private String username;
+
     @NotBlank(message = "密码不能为空")
     @Size(min = 5,max = 15,message ="密码长度为5-15字符")
     private String password;
@@ -35,6 +36,7 @@ public class User {
     @URL
     private String avatar;
 
+    @TableField("phoneNumber")
     private String phoneNumber;
     private String gender;
 
@@ -45,8 +47,10 @@ public class User {
 
     private UserRole role;//使用枚举类存储角色身份方便后续开发对应功能
 
+    @TableField(select = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
+    @TableField(select = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 

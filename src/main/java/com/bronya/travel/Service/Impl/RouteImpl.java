@@ -5,6 +5,8 @@ import com.bronya.travel.Entity.DTO.RouteCommentPageDTO;
 import com.bronya.travel.Entity.Route;
 import com.bronya.travel.Mapper.RouteMapper;
 import com.bronya.travel.Service.RouteService;
+import com.bronya.travel.Utils.ThreadLocalUtils;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -42,5 +44,10 @@ public class RouteImpl implements RouteService{
         return routeMapper.findCommentByPage(page,routeid);
     }
 
-    ;
+    @Override
+    public void addFavorite(String routeid) {
+        Claims tempclaim = ThreadLocalUtils.get();
+        String id = tempclaim.get("id").toString();
+        routeMapper.addFavorite(id,routeid);
+    }
 }

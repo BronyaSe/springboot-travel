@@ -13,4 +13,6 @@ public interface RouteService {
     int getratingCountByid(String id);
 
     List<RouteCommentPageDTO> RouteCommentfindByPage(Page<RouteCommentPageDTO> page, String routeid);
+
+    void addFavorite(String routeid);
 }

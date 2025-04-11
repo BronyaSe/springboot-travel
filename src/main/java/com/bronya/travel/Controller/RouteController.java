@@ -7,6 +7,7 @@ import com.bronya.travel.Entity.Result;
 import com.bronya.travel.Entity.Route;
 import com.bronya.travel.Service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,5 +50,15 @@ public class RouteController {
     public Result<Integer> routerating(@PathVariable String id){
      int count = routeService.getratingCountByid(id);
      return Result.success(count);
+    }
+
+    @PostMapping("/addfavorite")
+    public Result<Boolean> addFavorited(@RequestParam(value = "routeId") String routeid ){
+        try{
+            routeService.addFavorite(routeid);
+            return Result.success(true);
+        }catch(DataIntegrityViolationException e){
+            return Result.success(false);
+        }
     }
 }

@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bronya.travel.Entity.DTO.RouteCommentPageDTO;
 import com.bronya.travel.Entity.Route;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -28,4 +25,7 @@ public interface RouteMapper extends BaseMapper<Route> {
 
     @Select("select r.id,r.content,r.rating,r.createdAt,u.username,u.avatar from route_reviews r inner join users u on r.user_id=u.id where r.route_id=#{routeid}")
     List<RouteCommentPageDTO> findCommentByPage(Page<RouteCommentPageDTO> page , @Param("routeid") String routeid);
+
+    @Insert("INSERT INTO user_favorites (user_id,location_id) values (#{id},#{routeid})")
+    void addFavorite(String id, String routeid);
 }

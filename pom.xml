@@ -114,6 +114,14 @@
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 
+		<!-- Sardine 主库 -->
+		<dependency>
+			<groupId>com.github.lookfirst</groupId>
+			<artifactId>sardine</artifactId>
+			<version>5.13</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
