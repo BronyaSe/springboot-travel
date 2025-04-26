@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
             String oldPicWebDavUrl=webDavBaseUrl+"avatar/"+ url.substring(lastSlashIndex + 1);;
             sardine.put(filePath,file.getInputStream());
             fileUploaded = true;
-            user.setAvatar(PicBaseUrl+uuid+fileExtension);
+            user.setAvatar(PicBaseUrl+"avatar/"+uuid+fileExtension);
             userMapper.updateInfoById(user);
             if(!url.substring(lastSlashIndex + 1).equals("default.png")){
                 sardine.delete(oldPicWebDavUrl);

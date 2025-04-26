@@ -15,4 +15,9 @@ public interface RouteService {
     List<RouteCommentPageDTO> RouteCommentfindByPage(Page<RouteCommentPageDTO> page, String routeid);
 
     void addFavorite(String routeid);
+
+    List<Route> getRouteBySearchPage(int index, int size ,String search);
+    default List<Route> getRouteBySearchPage(int index, int size){
+        return getRouteBySearchPage(index,size,null);
+    };
 }

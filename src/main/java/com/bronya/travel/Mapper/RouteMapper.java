@@ -28,4 +28,5 @@ public interface RouteMapper extends BaseMapper<Route> {
 
     @Insert("INSERT INTO user_favorites (user_id,location_id) values (#{id},#{routeid})")
     void addFavorite(String id, String routeid);
+
 }

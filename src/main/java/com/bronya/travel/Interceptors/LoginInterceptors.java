@@ -10,6 +10,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.io.IOException;
+
 
 @Component
 public class LoginInterceptors implements HandlerInterceptor {
@@ -21,7 +23,7 @@ public class LoginInterceptors implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-            response.setHeader("Access-Control-Allow-Origin", "http://pc.bronyahan.top");
+            response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
             response.setHeader("Access-Control-Allow-Credentials", "true");
@@ -32,24 +34,35 @@ public class LoginInterceptors implements HandlerInterceptor {
             //拦截器会优先于配置文件的corsmapping之前执行
         String token = request.getHeader("Authorization");
         if (token == null || !token.startsWith("Bearer ")) {
-            throw new IllegalArgumentException("非authorization类型");// 或抛出异常，如 throw new IllegalArgumentException("Invalid Authorization header");
+            sendError(response, HttpServletResponse.SC_UNAUTHORIZED, "请登录");
+            return false;// 或抛出异常，如 throw new IllegalArgumentException("Invalid Authorization header");
         }
         token = token.substring(7);
         Claims tempclaim = jwtUtil.validateToken(token);
         Integer tempid = (Integer) tempclaim.get("id");
         String redistoken = stringRedisTemplate.opsForValue().get(tempid.toString());
         if (redistoken == null) {
-            throw new RuntimeException("不存在jwt");
+            sendError(response, HttpServletResponse.SC_UNAUTHORIZED, "请重新登录");
+            return false;
         }else if(redistoken.equals(token)){
             ThreadLocalUtils.set(tempclaim);
             return true;
         }else {
-            throw new RuntimeException("验证失败");
+            sendError(response, HttpServletResponse.SC_UNAUTHORIZED, "验证失败，请重新登陆");
+            return false;
         }
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         ThreadLocalUtils.remove();
+    }
+
+    private void sendError(HttpServletResponse response, int statusCode, String errorMessage) throws IOException {
+        response.setStatus(statusCode);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"error\": \"" + errorMessage + "\"}");
+        response.getWriter().flush();
     }
 }

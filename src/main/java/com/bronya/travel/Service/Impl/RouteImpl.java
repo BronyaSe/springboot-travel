@@ -1,5 +1,6 @@
 package com.bronya.travel.Service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bronya.travel.Entity.DTO.RouteCommentPageDTO;
 import com.bronya.travel.Entity.Route;
@@ -49,5 +50,16 @@ public class RouteImpl implements RouteService{
         Claims tempclaim = ThreadLocalUtils.get();
         String id = tempclaim.get("id").toString();
         routeMapper.addFavorite(id,routeid);
+    }
+
+    @Override
+    public List<Route> getRouteBySearchPage(int index, int size , String search) {
+        Page<Route> page = new Page<>(index,size);
+        LambdaQueryWrapper<Route> queryWrapper = new LambdaQueryWrapper<>();
+        if (search != null && !search.isEmpty()) {
+            queryWrapper.like(Route::getName,search);
+        }
+        queryWrapper.select(Route::getName,Route::getId,Route::getPrice,Route::getCategory,Route::getDuration);
+        return routeMapper.selectList(page, queryWrapper);
     }
 }
